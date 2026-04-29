@@ -23,7 +23,7 @@ func main() {
 	// routes: run after InitWebServer and InitDB
 	err := auth.InitUserRoutes()
 	if err != nil {
-		slog.Error("%s", err.Error())
+		slog.Error("failed to init user routes", "%s", err.Error())
 		return
 	}
 
