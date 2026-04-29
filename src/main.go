@@ -3,7 +3,7 @@ package main
 import (
 	"blacklizardcode/sine/database"
 	"blacklizardcode/sine/webserver"
-	"blacklizardcode/sine/users"
+	"blacklizardcode/sine/auth"
 	"log/slog"
 	"github.com/SladkyCitron/slogcolor"
 	"os"
@@ -21,7 +21,7 @@ func main() {
 	webserver.InitWebServer()
 
 	// routes: run after InitWebServer and InitDB
-	err := users.InitUserRoutes()
+	err := auth.InitUserRoutes()
 	if err != nil {
 		slog.Error("%s", err.Error())
 		return

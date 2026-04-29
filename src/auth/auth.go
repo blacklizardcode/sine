@@ -1,4 +1,4 @@
-package users
+package auth
 
 import (
 	"blacklizardcode/sine/database"
@@ -25,7 +25,7 @@ type userForm struct {
 func InitUserRoutes() error{
 	
 	{
-		users := webserver.Router.Group("/users")
+		users := webserver.Router.Group("/auth")
 		users.POST("/register", registerHandler)
 		users.POST("/login", loginHandler)
 	}
