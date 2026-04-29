@@ -106,3 +106,31 @@ func loginHandler(c *gin.Context) {
 	c.SetCookie("jwt", signedKey, int(time.Hour)*24, "/", "localhost", false, false)
 	c.Status(http.StatusOK)
 }
+
+func AuthMiddleWare() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+    	jwtCookie, err := c.Cookie("jwt")
+    	if err != nil {
+    		c.AbortWithStatus(http.StatusUnauthorized)
+    		return
+    	}
+
+    	// parse and validate JWT
+    	parsed, err := jwt.Parse(jwtCookie, func(token *jwt.Token) (interface{}, error) {
+    		// ensure token uses expected signing method
+    		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+    			return nil, jwt.ErrTokenSignatureInvalid
+    		}
+    		return jwtKey, nil
+    	})
+    	if err != nil || !parsed.Valid {
+    		c.AbortWithStatus(http.StatusUnauthorized)
+    		return
+    	}
+
+
+    	// Pre-handler phase
+    	c.Next()
+	}
+}
