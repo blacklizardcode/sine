@@ -1,0 +1,24 @@
+# sine
+The open source centralized currency without value
+
+---
+
+## about sine
+
+Sine is a passion project that I wanted to follow 3 rules
+1. Fully open source
+2. Only provide an official api (because I can't do frontend)
+3. Make the currency have no conversion rate
+
+This makes it possible for sine to be a local currency to use within your friend group, company or any group of people for rewards or things like that.
+
+## Documentation
+
+documentation will be provided in the [/docs](/docs) folder and also on github pages
+
+## installation
+
+currently sine is in development and you will have to do installation on your own, I would recommend you do these steps
+1. clone the repo
+2. make a service file for the project with `go run .` or compile it first and add the binary in the service file
+3.  setup the database, the docker compose for a database is included, just run `docker compose up -d`
