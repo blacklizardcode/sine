@@ -1,6 +1,7 @@
 package main
 
 import (
+	"blacklizardcode/sine/account"
 	"blacklizardcode/sine/auth"
 	"blacklizardcode/sine/database"
 	"blacklizardcode/sine/webserver"
@@ -25,11 +26,7 @@ func main() {
 
 	// routes: run after InitWebServer and InitDB
 	auth.InitAuthRoutes()
-	err := auth.InitUserRoutes()
-	if err != nil {
-		slog.Error("failed to init user routes", "%s", err.Error())
-		return
-	}
+	account.InitAccountRoutes()
 
 	// blocking: run last
 	webserver.RunWebServer()
