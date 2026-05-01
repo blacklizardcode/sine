@@ -14,11 +14,19 @@ This makes it possible for sine to be a local currency to use within your friend
 
 ## Documentation
 
-documentation is provided with github [Wiki](/wiki)
+documentation is provided with github [Wiki](https://github.com/blacklizardcode/sine/wiki)
 
 ## installation
 
 currently sine is in development and you will have to do installation on your own, I would recommend you do these steps
 1. clone the repo
 2. make a service file for the project with `go run .` or compile it first and add the binary in the service file
-3.  setup the database, the docker compose for a database is included, just run `docker compose up -d`
+3. setup the database, the docker compose for a database is included, just run `docker compose up -d`
+
+## Contributing
+
+Information about contributing is in the [contributing.md](contributing.md) file
+
+## License
+
+This project is licensed under the gnu affero general public license, more information in the [LICENSE.md](/LICENSE.md) file
