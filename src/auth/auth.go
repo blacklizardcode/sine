@@ -4,8 +4,10 @@ import (
 	"blacklizardcode/sine/database"
 	"blacklizardcode/sine/webserver"
 	"context"
+	"fmt"
 	"log/slog"
 	"net/http"
+	"strconv"
 	"time"
 
 	"crypto/sha256"
@@ -22,7 +24,13 @@ type userForm struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func InitUserRoutes() error {
+type JwtClaims struct {
+	sub string
+	exp string
+	iat string
+}
+
+func InitAuthRoutes() {
 
 	{
 		users := webserver.Router.Group("/auth")
@@ -30,7 +38,6 @@ func InitUserRoutes() error {
 		users.POST("/login", loginHandler)
 	}
 
-	return nil
 }
 
 func registerHandler(c *gin.Context) {
@@ -52,7 +59,6 @@ func registerHandler(c *gin.Context) {
 		return
 	}
 
-	// finalize hash and encode as hex string
 	passwordSum := passwordHash.Sum(nil)
 	passwordHex := hex.EncodeToString(passwordSum)
 
@@ -90,9 +96,12 @@ func loginHandler(c *gin.Context) {
 		return
 	}
 
+	var userId int
+	err = database.DB.QueryRow(context.Background(), "SELECT userid from users WHERE username=$1", json.Username).Scan(&userId)
+
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"sub": json.Username,
+			"sub": strconv.Itoa(userId),
 			"exp": jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 			"iat": jwt.NewNumericDate(time.Now()),
 		})
@@ -103,7 +112,8 @@ func loginHandler(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("jwt", signedKey, int(time.Hour)*24, "/", "localhost", false, false)
+	// set a host-only cookie with correct max-age (seconds) and httpOnly
+	c.SetCookie("jwt", signedKey, 24*3600, "/", "", false, true)
 	c.Status(http.StatusOK)
 }
 
@@ -111,10 +121,11 @@ func AuthMiddleWare() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
     	jwtCookie, err := c.Cookie("jwt")
-    	if err != nil {
-    		c.AbortWithStatus(http.StatusUnauthorized)
-    		return
-    	}
+		if err != nil {
+			slog.Error("missing jwt cookie", "error", err)
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
 
     	// parse and validate JWT
     	parsed, err := jwt.Parse(jwtCookie, func(token *jwt.Token) (interface{}, error) {
@@ -124,13 +135,31 @@ func AuthMiddleWare() gin.HandlerFunc {
     		}
     		return jwtKey, nil
     	})
-    	if err != nil || !parsed.Valid {
-    		c.AbortWithStatus(http.StatusUnauthorized)
-    		return
-    	}
+		if err != nil || !parsed.Valid {
+			slog.Error("failed to parse/validate jwt", "error", err)
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
 
 
     	// Pre-handler phase
     	c.Next()
 	}
+}
+
+func JwtToJwtClaims(jwtString string) (jwt.Claims, error) {
+	token, _, err := new(jwt.Parser).ParseUnverified(jwtString, jwt.MapClaims{})
+
+		
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("")
+	}
+
+
+	return claims, nil
 }
