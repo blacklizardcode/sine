@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -17,7 +18,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtKey = []byte("smtn")
+var jwtKey = []byte(os.Getenv("JWT_KEY"))
 
 type userForm struct {
 	Username string `json:"username" binding:"required"`
