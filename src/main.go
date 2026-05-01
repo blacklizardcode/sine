@@ -5,8 +5,8 @@ import (
 	"blacklizardcode/sine/auth"
 	"blacklizardcode/sine/database"
 	"blacklizardcode/sine/transaction"
+	"blacklizardcode/sine/webserver"
 
-	"blacklizardcode/sine/auth"
 	"log/slog"
 	"os"
 
@@ -23,11 +23,12 @@ func main() {
 	// initializes values: run first
 	database.InitDB()
 	webserver.InitWebServer()
-	transaction.InitTransactionRoutes()
+	
 
 	// routes: run after InitWebServer and InitDB
 	auth.InitAuthRoutes()
 	account.InitAccountRoutes()
+	transaction.InitTransactionRoutes()
 
 	// blocking: run last
 	webserver.RunWebServer()
