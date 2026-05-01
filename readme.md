@@ -14,7 +14,7 @@ This makes it possible for sine to be a local currency to use within your friend
 
 ## Documentation
 
-documentation will be provided in the [/docs](/docs) folder and also on github pages
+documentation is provided with github [Wiki](/wiki)
 
 ## installation
 
