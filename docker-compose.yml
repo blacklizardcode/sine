@@ -1,4 +1,16 @@
 services:
+
+  sine:
+    image: ghcr.io/blacklizardcode/sine:latest
+    container_name: sine
+    restart: always
+    environment:
+      - JWT_KEY=smtn
+      - DB_USER=root
+      - DB_PASS=root
+      - DB_URI=127.0.0.1:5432
+      - DB_NAME=sine-db
+
   postgres:
     image: postgres
     container_name: postgres_db

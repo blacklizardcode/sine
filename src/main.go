@@ -17,6 +17,7 @@ import (
 
 func main() {
 	slog.SetDefault(slog.New(slogcolor.NewHandler(os.Stderr, slogcolor.DefaultOptions)))
+	slog.SetLogLoggerLevel(slog.LevelInfo)
 
 	slog.Info("starting")
 
