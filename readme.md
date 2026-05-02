@@ -23,10 +23,10 @@ documentation is provided with github [Wiki](https://github.com/blacklizardcode/
 
 ## installation
 
-currently sine is in development and you will have to do installation on your own, I would recommend you do these steps
-1. clone the repo
-2. make a service file for the project with `go run .` or compile it first and add the binary in the service file
-3. setup the database, the docker compose for a database is included, just run `docker compose up -d`
+currently sine is in development and not fully ready for use, if you want to test it out here are the steps to do so:
+1. download the  latest [docker-compose.yaml](https://downgit.github.io/#/home?url=https://github.com/blacklizardcode/sine/blob/master/docker-compose.yml)
+2. use `docker compose up -d` to start the containers
+3. use postman or alike to use or test the api or make your own frontend
 
 ## Contributing
 
