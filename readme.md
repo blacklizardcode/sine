@@ -1,6 +1,11 @@
 # sine
 The open source centralized currency without value
 
+[![Discord](https://img.shields.io/discord/1487827567695368450?logo=discord&color=%235865f2)](https://discord.gg/JZ6tGpeSeh)
+![GitHub last commit](https://img.shields.io/github/last-commit/blacklizardcode/sine?logo=github)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/blacklizardcode/sine/docker-release.yaml?logo=github&label=release)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/blacklizardcode/sine/docker-nightly.yaml?logo=github&label=nightly)
+
 ---
 
 ## about sine
